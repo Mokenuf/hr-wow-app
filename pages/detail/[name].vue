@@ -16,6 +16,12 @@ const route = useRoute()
 const characterStore = useCharacterStore()
 const character = computed(() => characterStore.character)
 
+watchEffect(() => {
+	if (character.value.name) {
+		characterStore.fetchCharacterItems(route.params.name)
+	}
+})
+
 definePageMeta({
 	layout: 'public',
 })

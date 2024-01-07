@@ -13,6 +13,8 @@ interface Character {
 	level: number
 	iLevel: number
 	equipment: Item[]
+	score: number
+	stats: Stats
 }
 
 interface Item {
@@ -20,6 +22,24 @@ interface Item {
 	slot: string
 	name: string
 	quality: string
+}
+
+interface Stats {
+	health: number
+	power: number
+	powerType: string
+	strength: number
+	agility: number
+	intellect: number
+	stamina: number
+	mastery: number
+	masteryValue: number
+	haste: number
+	hasteValue: number
+	crit: number
+	critValue: number
+	versatility: number
+	versValue: number
 }
 
 export const useCharacterStore = defineStore('character', {
@@ -69,6 +89,54 @@ export const useCharacterStore = defineStore('character', {
 				}))
 			} catch (e) {
 				console.error('Error fetching character items: ', e)
+			} finally {
+				this.isLoading = false
+			}
+		},
+		async fetchCharacterMythicRating(characterName: string) {
+			const name = characterName.toLowerCase()
+			this.isLoading = true
+			try {
+				const { clientId, clientSecret, region } = getBlizzConfig()
+				const blizzApi = new BlizzAPI({ clientId, clientSecret, region })
+				const { current_mythic_rating } = await blizzApi.query(
+					`/profile/wow/character/ragnaros/${name}/mythic-keystone-profile?namespace=profile-us&locale=en_US`
+				)
+				this.character.score = Math.floor(current_mythic_rating.rating)
+			} catch (e) {
+				console.error('Error fetching character mythic rating: ', e)
+			} finally {
+				this.isLoading = false
+			}
+		},
+		async fetchCharacterStats(characterName: string) {
+			const name = characterName.toLowerCase()
+			this.isLoading = true
+			try {
+				const { clientId, clientSecret, region } = getBlizzConfig()
+				const blizzApi = new BlizzAPI({ clientId, clientSecret, region })
+				const res = await blizzApi.query(
+					`/profile/wow/character/ragnaros/${name}/statistics?namespace=profile-us&locale=en_US`
+				)
+				this.character.stats = {
+					health: res.health,
+					power: res.power,
+					powerType: res.power_type.name,
+					strength: res.strength.effective,
+					agility: res.agility.effective,
+					intellect: res.intellect.effective,
+					stamina: res.stamina.effective,
+					mastery: res.mastery.rating,
+					masteryValue: Math.floor(res.mastery.value),
+					haste: res.melee_haste.rating,
+					hasteValue: Math.floor(res.melee_haste.value),
+					crit: res.melee_crit.rating,
+					critValue: Math.floor(res.melee_crit.value),
+					versatility: res.versatility,
+					versValue: Math.floor(res.versatility_damage_done_bonus),
+				}
+			} catch (e) {
+				console.error('Error fetching character stats: ', e)
 			} finally {
 				this.isLoading = false
 			}

@@ -9,8 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { useRosterStore } from '~/stores/roster'
-import { useAppStore } from '~/stores/app'
 import { classColors } from '~/helpers/catalogs'
 
 interface ColumnProps {

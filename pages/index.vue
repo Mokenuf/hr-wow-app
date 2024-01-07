@@ -1,12 +1,10 @@
 <template>
 	<div>
-		<AppCharacterList />
+		<AppRosterList />
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '~/stores/app'
-
 const appStore = useAppStore()
 
 definePageMeta({

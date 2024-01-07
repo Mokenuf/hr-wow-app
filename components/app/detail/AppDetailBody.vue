@@ -2,14 +2,19 @@
 	<BaseCard>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<div>
-				<h2 class="text-xl text-black font-semibold">Basic Info</h2>
-				<p class="text-gray-700 text-base">Race: {{ character.race }}</p>
-				<p class="text-gray-700 text-base">
-					Class: <span :style="{ color: getClassColor(character.classId) }">{{ character.class }}</span>
-				</p>
-				<p class="text-gray-700 text-base">Spec: {{ character.spec }}</p>
+				<div>
+					<h2 class="text-xl text-black font-semibold">Basic Info</h2>
+					<p class="text-gray-700 text-base">Race: {{ character.race }}</p>
+					<p class="text-gray-700 text-base">
+						Class: <span :style="{ color: getClassColor(character.classId) }">{{ character.class }}</span>
+					</p>
+					<p class="text-gray-700 text-base">Spec: {{ character.spec }}</p>
+				</div>
+				<div v-if="character.stats" class="mt-2">
+					<AppDetailBodyStats :stats="character.stats" />
+				</div>
 			</div>
-			<div>
+			<div v-if="character.equipment">
 				<h2 class="text-xl text-black font-semibold">Equipment</h2>
 				<div v-for="item in character.equipment" :key="item.id">
 					<p class="text-gray-700 text-base font-semibold">

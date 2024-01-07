@@ -12,6 +12,14 @@ interface Character {
 	specId: number
 	level: number
 	iLevel: number
+	equipment: Item[]
+}
+
+interface Item {
+	id: number
+	slot: string
+	name: string
+	quality: string
 }
 
 export const useCharacterStore = defineStore('character', {
@@ -40,6 +48,27 @@ export const useCharacterStore = defineStore('character', {
 				}
 			} catch (e) {
 				console.error('Error fetching character: ', e)
+			} finally {
+				this.isLoading = false
+			}
+		},
+		async fetchCharacterItems(characterName: string) {
+			const name = characterName.toLowerCase()
+			this.isLoading = true
+			try {
+				const { clientId, clientSecret, region } = getBlizzConfig()
+				const blizzApi = new BlizzAPI({ clientId, clientSecret, region })
+				const { equipped_items } = await blizzApi.query(
+					`/profile/wow/character/ragnaros/${name}/equipment?namespace=profile-us&locale=en_US`
+				)
+				this.character.equipment = equipped_items.map((i) => ({
+					id: i.item.id,
+					slot: i.slot.name,
+					name: i.name,
+					quality: i.quality.type,
+				}))
+			} catch (e) {
+				console.error('Error fetching character items: ', e)
 			} finally {
 				this.isLoading = false
 			}

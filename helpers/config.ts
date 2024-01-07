@@ -1,1 +1,1 @@
-export const PrefixTitle = 'HR -'
+export const PrefixTitle = 'HR - '

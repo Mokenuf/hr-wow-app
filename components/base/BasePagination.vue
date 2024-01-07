@@ -1,13 +1,13 @@
 <template>
-	<nav class="flex justify-end mt-4">
+	<nav class="flex justify-center md:justify-end mt-4">
 		<ul class="flex space-x-1">
 			<li>
 				<button
 					:class="[
 						'w-8 h-8 rounded-full flex items-center justify-center text-gray-500 bg-gray-50 hover:bg-gray-100',
-						{ disabled: currentPage ?? 1 <= 1 },
+						{ disabled: (currentPage ?? 1) <= 1 },
 					]"
-					@click="changePage(currentPage ?? 1 - 1)"
+					@click="changePage((currentPage ?? 1) - 1)"
 				>
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">-</span>

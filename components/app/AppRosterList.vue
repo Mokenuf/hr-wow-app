@@ -2,7 +2,9 @@
 	<BaseTable :columns="columns" :rows="paginatedCharacters">
 		<template v-slot:custom-cell="{ row, column }">
 			<span v-if="column.key === 'class'" :style="{ color: getClassColor(row.classId) }">{{ row.class }}</span>
-			<NuxtLink v-if="column.key === 'name'" :to="`/detail/${row.name}`">{{ row.name }}</NuxtLink>
+			<NuxtLink v-if="column.key === 'name'" class="hover:font-semibold" :to="`/detail/${row.name}`">{{
+				row.name
+			}}</NuxtLink>
 		</template>
 	</BaseTable>
 	<BasePagination :current-page="currentPage" :total-pages="totalPages" @update:current-page="updateCurrentPage" />

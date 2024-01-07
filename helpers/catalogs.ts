@@ -14,3 +14,13 @@ export const classColors = {
 	13: '#33937F',
 }
 export const ranksOfInterest = [0, 1, 2, 3, 4]
+export const qualityColors = {
+	HEIRLOOM: '#00CCFF',
+	ARTIFACT: '#E6CC80',
+	LEGENDARY: '#FF8000',
+	EPIC: '#A335EE',
+	RARE: '#0070DD',
+	UNCOMMON: '#1EFF00',
+	COMMON: '#FFFFFF',
+	POOR: '#9D9D9D',
+}

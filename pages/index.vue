@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <AppCharacterList />
-  </div>
+	<div>
+		<AppRosterList />
+	</div>
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '~/stores/app';
-
-const appStore = useAppStore();
+const appStore = useAppStore()
 
 definePageMeta({
-  layout: 'public',
+	layout: 'public',
 })
 
 onMounted(() => {
-  appStore.fetchPlayableClasses()
-  appStore.fetchPlayableRaces()
+	appStore.fetchPlayableClasses()
+	appStore.fetchPlayableRaces()
 })
 </script>
